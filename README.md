@@ -13,9 +13,9 @@ Swing
 Hibernate
 
 # Database infos :
-###JDBC URL - jdbc:mysql://localhost:3306//doctorsDB
-###USERNAME - root
-###PASSWORD - PepsiCola30@
+### JDBC URL - jdbc:mysql://localhost:3306//doctorsDB
+### USERNAME - root
+### PASSWORD - PepsiCola30@
 
 # How to run 
 
