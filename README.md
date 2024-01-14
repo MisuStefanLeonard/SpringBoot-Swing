@@ -6,11 +6,11 @@ Java JDK 17+
 Docker Desktop - latest version ( for the database ) 
 
 # Libraries
-SpringBootJPA -- version 3.2.0
-MySQL database - 8.2.1
-Lombok
-Swing
-Hibernate
+#### SpringBootJPA -- version 3.2.0
+#### MySQL database - 8.2.1
+#### Lombok
+#### Swing
+#### Hibernate
 
 # Database infos :
 ### JDBC URL - jdbc:mysql://localhost:3306//doctorsDB
