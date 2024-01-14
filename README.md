@@ -13,28 +13,28 @@ Swing application combined with SpringBoot JPA using MySQLDatabase
 #### Hibernate
 
 # Database infos :
-#### JDBC URL - jdbc:mysql://localhost:3306//doctorsDB
-#### USERNAME - root
-#### PASSWORD - PepsiCola30@
+| JDBC URL | USERNAME | PASSWORD |
+| ------------- | ------------- | ------------ |
+| jdbc:mysql://localhost:3306//doctorsDB  | root  |  PepsiCola30@ |
 
 # How to run 
 
 ### On windows 
-
-##### Run MySQL database schema 
+```
+# Run MySQL database schema 
 docker-compose up -d
 
-##### Build application using maven
+# Build application using maven
 mvnw.cmd spring-boot:run
-
-## On linux/macOS
-
-##### Run MySQL database schema 
+```
+### On linux/macOS
+```
+# Run MySQL database schema 
 docker-compose up -d
 
-##### Build application using maven
+# Build application using maven
 ./mvnw spring-boot:run
-
+```
 # Screenshots
 
 ![diagrama ](https://github.com/MisuStefanLeonard/SpringBoot-Swing/assets/101972228/07866846-f391-45fd-bcbb-f5fb7827ae4f)
