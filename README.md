@@ -2,8 +2,8 @@
 Swing application combined with SpringBoot JPA using MySQLDatabase
 
 # Prerequisites 
-Java JDK 17+
-Docker Desktop - latest version ( for the database ) 
+#### Java JDK 17+
+#### Docker Desktop - latest version ( for the database ) 
 
 # Libraries
 #### SpringBootJPA -- version 3.2.0
