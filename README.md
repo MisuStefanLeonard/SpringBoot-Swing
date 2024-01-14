@@ -6,7 +6,15 @@ Swing application combined with SpringBoot JPA using MySQLDatabase
 #### Docker Desktop - latest version ( for the database ) 
 
 # Libraries
-#### SpringBootJPA -- version 3.2.0
+| Library | Description | Version |
+| ------------- | ------------- | ------------ |
+| SpringBoot | SpringBoot allows easy interaction with the database and defines all the method you need. |  3.2 |
+| JPA(Hibernate) | Hibernate ORM enables developers to more easily write applications whose data outlives the application process. | - |
+| Swing | Provides a set of "lightweight" (all-Java language) components that, to the maximum degree possible, work the same on all platforms.Flexible and good | - |
+| MySQL | Database in which the projec is made | 8.2.1 |
+| Lombok | Library to reduce the boilerplate code of Java | - |
+
+#### SpringBoot -- version 3.2.0
 #### MySQL database - 8.2.1
 #### Lombok
 #### Swing
