@@ -13,26 +13,26 @@ Docker Desktop - latest version ( for the database )
 #### Hibernate
 
 # Database infos :
-### JDBC URL - jdbc:mysql://localhost:3306//doctorsDB
-### USERNAME - root
-### PASSWORD - PepsiCola30@
+#### JDBC URL - jdbc:mysql://localhost:3306//doctorsDB
+#### USERNAME - root
+#### PASSWORD - PepsiCola30@
 
 # How to run 
 
-## On windows 
+### On windows 
 
-### Run MySQL database schema 
+##### Run MySQL database schema 
 docker-compose up -d
 
-### Build application using maven
+##### Build application using maven
 mvnw.cmd spring-boot:run
 
 ## On linux/macOS
 
-### Run MySQL database schema 
+##### Run MySQL database schema 
 docker-compose up -d
 
-### Build application using maven
+##### Build application using maven
 ./mvnw spring-boot:run
 
 # Screenshots
