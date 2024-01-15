@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  misuDB:
+    container_name: doctorsDB
+    image: mysql:8.2.0
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_DB: doctorsDB
+      MYSQL_USER: root
+      MYSQL_PASSWORD: PepsiCola30@
+    restart:
+      unless-stopped
