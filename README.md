@@ -13,6 +13,7 @@ Swing application combined with SpringBoot JPA using MySQLDatabase
 | Swing | Provides a set of "lightweight" (all-Java language) components that, to the maximum degree possible, work the same on all platforms.Flexible and good | - |
 | MySQL | Database in which the project is made. Provides automatization for a lot of things | 8.2.1 |
 | Lombok | Library to reduce the boilerplate code of Java | - |
+| Flatlaf | Library to make the UI look nicer and cleaner | 3.2.5 |
 
 
 # Database info :
