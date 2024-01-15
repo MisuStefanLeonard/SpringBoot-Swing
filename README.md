@@ -25,24 +25,24 @@ Swing application combined with SpringBoot JPA using MySQLDatabase
 
 ### On windows 
 ```
-# in terminal
+## in terminal
 cd path/of/your/Application folder
 
-# Run MySQL database schema 
+## Run MySQL database schema
 docker-compose up -d
 
-# Build application using maven
+## Build application using maven
 mvnw.cmd spring-boot:run
 ```
 ### On linux/macOS
 ```
-# in terminal
+## in terminal
 cd path/of/your/Application folder
 
-# Run MySQL database schema 
+## Run MySQL database schema 
 docker-compose up -d
 
-# Build application using maven
+## Build application using maven
 ./mvnw spring-boot:run
 ```
 # Screenshots
