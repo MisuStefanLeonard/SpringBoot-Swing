@@ -53,15 +53,12 @@ public class TesteLaboratorServiceImplementation implements  TesteLaboratorServi
         List<TestePacienti> correspondingTestePacientiForTestLaborator = testePacientiRepository.findBytesteLaborator(toBeUpdatedTestLaborator);
         toBeUpdatedTestLaborator.setTestePacientiLaborator(correspondingTestePacientiForTestLaborator);
         if(toBeUpdatedTestLaborator != null){
-            for(TestePacienti testePacienti : toBeUpdatedTestLaborator.getTestePacientiLaborator()){
-                testePacienti.setTesteLaborator(null);
-            }
             TesteLaborator newUpdatedTest = new TesteLaborator(toBeUpdatedTestLaborator);
             newUpdatedTest.setAcuaratete(testeLaborator.getAcuaratete());
             newUpdatedTest.setValoareMaxima(testeLaborator.getValoareMaxima());
             newUpdatedTest.setNumeTest(testeLaborator.getNumeTest());
             newUpdatedTest.setValoareMinima(testeLaborator.getValoareMinima());
-            
+            testePacientiRepository.deleteAllBytesteLaborator(toBeUpdatedTestLaborator);
             List<TestePacienti> newTestePacienti = toBeUpdatedTestLaborator.getTestePacientiLaborator().stream()
                                                     .map(testePacienti -> {
                                                         TestePacienti newTests = new TestePacienti(testePacienti);
@@ -69,8 +66,7 @@ public class TesteLaboratorServiceImplementation implements  TesteLaboratorServi
                                                         newTests.setTesteLaborator(newUpdatedTest);
                                                         return newTests;
                                                     }).collect(Collectors.toList());
-            
-            testePacientiRepository.saveAll(newTestePacienti);
+            testeLaboratorRepository.delete(toBeUpdatedTestLaborator);
             newUpdatedTest.setTestePacientiLaborator(newTestePacienti);
             testeLaboratorRepository.saveAndFlush(newUpdatedTest);
             testePacientiRepository.saveAll(newTestePacienti);

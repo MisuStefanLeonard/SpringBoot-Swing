@@ -3547,12 +3547,17 @@ public class MainFrame extends javax.swing.JFrame {
            }
            case 9 -> {
                boolean CHECK_NAME_TL = false;
+               boolean CHECK_TLNAME_IN_DB = true;
                String getNume = TextFieldForNumeTL.getText();
                TextFieldForNumeTL.setBorder(redLine);
                if(getNume.matches("^[a-zA-z0-9]+$")){
                    CHECK_NAME_TL = true;
+                   TesteLaborator toBeFoundInDB = CRUD_TesteLaborator.findByNumeTest(getNume);
+                   if(toBeFoundInDB == null){
+                       CHECK_TLNAME_IN_DB = false;
+                   }
                }
-               if(CHECK_NAME_TL == true){
+               if(CHECK_NAME_TL && !CHECK_TLNAME_IN_DB){
                    mainFlag = true;
                    TextFieldForMinVal.setEnabled(true);
                    TextFieldForNumeTL.setBorder(greenLine);
