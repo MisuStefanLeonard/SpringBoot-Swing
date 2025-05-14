@@ -15,8 +15,13 @@ import com.dbapplication.repository.DoctoriRepository;
 import com.dbapplication.repository.ReteteCuMedicamenteleRepository;
 import com.dbapplication.repository.ReteteRepository;
 import com.dbapplication.repository.TipDoctoriRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +43,7 @@ public class DoctoriServiceImplementation implements DoctoriService{
     private final ReteteRepository reteteRepository;
     private final ReteteCuMedicamenteleRepository RCMRepository;
     private final EntityManager doctorEntityManager;
+    private final String TableName = "doctori";
     @Autowired
     public DoctoriServiceImplementation(DoctoriRepository doctoriRepository, TipDoctoriRepository tipDoctoriRepository, CabineteDoctoriRepository cabineteRepository, ReteteRepository reteteRepository, ReteteCuMedicamenteleRepository RCMRepository, EntityManager doctorEntityManager) {
         this.doctoriRepository = doctoriRepository;
@@ -46,6 +52,24 @@ public class DoctoriServiceImplementation implements DoctoriService{
         this.reteteRepository = reteteRepository;
         this.RCMRepository = RCMRepository;
         this.doctorEntityManager = doctorEntityManager;
+    }
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     
@@ -56,10 +80,14 @@ public class DoctoriServiceImplementation implements DoctoriService{
     @Override
     public Doctori save(Doctori doctori){
         doctoriRepository.save(doctori);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "INSERT",ts});
         return doctori;
     }
     @Override
     public void delete(Doctori doctori){
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "DELETE",ts});
         doctoriRepository.delete(doctori);
     }
     
@@ -122,6 +150,8 @@ public class DoctoriServiceImplementation implements DoctoriService{
            }
            doctoriRepository.delete(oldDoctor);
            RCMRepository.saveAll(updatedReteteCuMedicamentele);
+            String ts = LocalDateTime.now().toString();
+            CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
         }else{
             throw new Error("Doctor not found!");
         }

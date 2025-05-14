@@ -13,10 +13,10 @@ import java.util.List;
  */
 
 public interface TesteLaboratorService {
-    public List<TesteLaborator> findAll();
-    public TesteLaborator save(TesteLaborator testeLaborator);
-    public TesteLaborator delete(TesteLaborator testeLaborator);
-    public TesteLaborator update(TesteLaborator testeLaborator , String oldName);
-    public TesteLaborator findById(Integer idTest);
-    public TesteLaborator findByNumeTest(String NumeTest);
+     List<TesteLaborator> findAll();
+     TesteLaborator save(TesteLaborator testeLaborator);
+     TesteLaborator delete(TesteLaborator testeLaborator);
+     TesteLaborator update(TesteLaborator testeLaborator , String oldName);
+     TesteLaborator findById(Integer idTest);
+     TesteLaborator findByNumeTest(String NumeTest);
 }

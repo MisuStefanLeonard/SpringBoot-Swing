@@ -15,10 +15,10 @@ import java.util.Optional;
  */
 public interface DoctoriService {
     
-    public List<Doctori> findAll();
-    public Doctori save(Doctori doctori);
-    public void delete(Doctori doctori);
-    public Doctori update(Doctori doctori , Integer oldCUI, String specializationName);
-    public Doctori findById(Integer doctorCUI);
-    public List<DoctoriDTO> getEveryDoctorsReteteLessThanACount(Integer reteteCount);
+     List<Doctori> findAll();
+     Doctori save(Doctori doctori);
+     void delete(Doctori doctori);
+     Doctori update(Doctori doctori , Integer oldCUI, String specializationName);
+     Doctori findById(Integer doctorCUI);
+     List<DoctoriDTO> getEveryDoctorsReteteLessThanACount(Integer reteteCount);
 }

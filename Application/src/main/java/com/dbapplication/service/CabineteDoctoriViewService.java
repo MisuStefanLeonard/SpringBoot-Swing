@@ -12,9 +12,9 @@ import java.util.List;
  * @author misustefan
  */
 public interface CabineteDoctoriViewService {
-    public List<CabineteDoctoriVIEW> findAll();
-    public CabineteDoctoriVIEW add(CabineteDoctoriVIEW cabDoctori);
-    public void delete(CabineteDoctoriVIEW cabDoctori);
-    public CabineteDoctoriVIEW update(CabineteDoctoriVIEW cabDoctori , Integer cabinetID);
-    public CabineteDoctoriVIEW findById(Integer cabinetID);
+     List<CabineteDoctoriVIEW> findAll();
+     CabineteDoctoriVIEW add(CabineteDoctoriVIEW cabDoctori);
+     void delete(CabineteDoctoriVIEW cabDoctori);
+     CabineteDoctoriVIEW update(CabineteDoctoriVIEW cabDoctori , Integer cabinetID);
+     CabineteDoctoriVIEW findById(Integer cabinetID);
 }

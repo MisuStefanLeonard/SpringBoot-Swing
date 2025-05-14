@@ -10,7 +10,13 @@ import com.dbapplication.models.ReteteCuMedicamentele;
 import com.dbapplication.repository.MedicamenteRepository;
 import com.dbapplication.repository.ReteteCuMedicamenteleRepository;
 import com.dbapplication.repository.ReteteRepository;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +32,31 @@ public class ReteteCuMedicamenteleImplementation implements ReteteCuMedicamentel
     private final ReteteCuMedicamenteleRepository reteteCuMedicamenteRepository;
     private final MedicamenteRepository medicamenteRepository;
     private final ReteteRepository reteteRepository;
+    private final String TableName = "retete_cu_medicamente";
+
     @Autowired
     public ReteteCuMedicamenteleImplementation(ReteteCuMedicamenteleRepository reteteCuMedicamenteRepository, MedicamenteRepository medicamenteRepository, ReteteRepository reteteRepository) {
         this.reteteCuMedicamenteRepository = reteteCuMedicamenteRepository;
         this.medicamenteRepository = medicamenteRepository;
         this.reteteRepository = reteteRepository;
+    }
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     @Override
@@ -41,12 +67,16 @@ public class ReteteCuMedicamenteleImplementation implements ReteteCuMedicamentel
     @Override
     public ReteteCuMedicamentele save(ReteteCuMedicamentele reteta) {
         reteteCuMedicamenteRepository.save(reteta);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "INSERT",ts});
         return reteta;
     }
 
     @Override
     public ReteteCuMedicamentele delete(ReteteCuMedicamentele reteta) {
         reteteCuMedicamenteRepository.delete(reteta);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "DELETE",ts});
         return reteta;
     }
 
@@ -63,6 +93,8 @@ public class ReteteCuMedicamenteleImplementation implements ReteteCuMedicamentel
             newUpdatedRetetaCuMedicamentul.setReteta(correspondingReteta);
             
             reteteCuMedicamenteRepository.save(newUpdatedRetetaCuMedicamentul);
+            String ts = LocalDateTime.now().toString();
+            CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
         }
         return reteta;
     }

@@ -12,10 +12,10 @@ import java.util.List;
  * @author misustefan
  */
 public interface PacientiService {
-    public List<Pacienti> findAll();
-    public Pacienti save(Pacienti pacienti);
-    public Pacienti delete(Pacienti pacienti);
-    public Pacienti update(Pacienti pacienti , String oldCNP);
-    public Pacienti findById(String pacientCnp);
-    public List<Pacienti> pacientsWhoHaveOnPrescriptionMedicamentWithNameAndWithTestName(String medicamentName , String numeTest);
+     List<Pacienti> findAll();
+     Pacienti save(Pacienti pacienti);
+     Pacienti delete(Pacienti pacienti);
+     Pacienti update(Pacienti pacienti , String oldCNP);
+     Pacienti findById(String pacientCnp);
+     List<Pacienti> pacientsWhoHaveOnPrescriptionMedicamentWithNameAndWithTestName(String medicamentName , String numeTest);
 }

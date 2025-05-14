@@ -5,7 +5,13 @@
 package com.dbapplication.service;
 
 import com.dbapplication.repository.TesteLaboratorRepository;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +30,29 @@ import java.util.stream.Collectors;
 public class TesteLaboratorServiceImplementation implements  TesteLaboratorService{
     private final TesteLaboratorRepository testeLaboratorRepository;
     private final TestePacientiRepository testePacientiRepository;
+    private final String TableName = "teste_laborator";
 
     public TesteLaboratorServiceImplementation(TesteLaboratorRepository testeLaboratorRepository, TestePacientiRepository testePacientiRepository) {
         this.testeLaboratorRepository = testeLaboratorRepository;
         this.testePacientiRepository = testePacientiRepository;
+    }
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     @Override
@@ -38,12 +63,16 @@ public class TesteLaboratorServiceImplementation implements  TesteLaboratorServi
     @Override
     public TesteLaborator save(TesteLaborator testeLaborator) {
         testeLaboratorRepository.save(testeLaborator);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "INSERT",ts});
         return testeLaborator;
     }
 
     @Override
     public TesteLaborator delete(TesteLaborator testeLaborator) {
         testeLaboratorRepository.delete(testeLaborator);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "DELETE",ts});
         return testeLaborator;    
     }
 
@@ -70,6 +99,8 @@ public class TesteLaboratorServiceImplementation implements  TesteLaboratorServi
             newUpdatedTest.setTestePacientiLaborator(newTestePacienti);
             testeLaboratorRepository.saveAndFlush(newUpdatedTest);
             testePacientiRepository.saveAll(newTestePacienti);
+            String ts = LocalDateTime.now().toString();
+            CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
         }
         return toBeUpdatedTestLaborator;
     }

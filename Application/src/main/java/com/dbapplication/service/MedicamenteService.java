@@ -12,10 +12,10 @@ import java.util.List;
  * @author misustefan
  */
 public interface MedicamenteService {
-    public List<Medicamente> findAll();
-    public Medicamente save(Medicamente medicament);
-    public Medicamente delete(Medicamente medicament);
-    public Medicamente update(Medicamente medicament , Integer ID);
-    public Medicamente findById(Integer ID);
-    public Medicamente findByNumeMedicament(String nume);
+     List<Medicamente> findAll();
+     Medicamente save(Medicamente medicament);
+     Medicamente delete(Medicamente medicament);
+     Medicamente update(Medicamente medicament , Integer ID);
+     Medicamente findById(Integer ID);
+     Medicamente findByNumeMedicament(String nume);
 }

@@ -14,10 +14,10 @@ import java.util.List;
  * @author misustefan
  */
 public interface ReteteService {
-    public List<Retete> findAll();
-    public Retete save(Retete retete);
-    public Retete delete(Retete retete);
-    public Retete update(Retete retete, Integer retetaID ,Integer CUI , String CNP);
-    public Retete findById(Integer ID);
-    public List<Retete> findByPacient(Pacienti pacient);
+     List<Retete> findAll();
+     Retete save(Retete retete);
+     Retete delete(Retete retete);
+     Retete update(Retete retete, Integer retetaID ,Integer CUI , String CNP);
+     Retete findById(Integer ID);
+     List<Retete> findByPacient(Pacienti pacient);
 }

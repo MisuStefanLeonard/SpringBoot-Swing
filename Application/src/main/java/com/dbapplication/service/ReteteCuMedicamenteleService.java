@@ -14,9 +14,9 @@ import java.util.List;
  * @author misustefan
  */
 public interface ReteteCuMedicamenteleService {
-    public List<ReteteCuMedicamentele> findAll();
-    public ReteteCuMedicamentele save(ReteteCuMedicamentele reteta);
-    public ReteteCuMedicamentele delete(ReteteCuMedicamentele reteta);
-    public ReteteCuMedicamentele update(ReteteCuMedicamentele reteta ,Integer IDRetetaToBeUpdated ,String numeMedicament , Integer retetaID);
-    public ReteteCuMedicamentele findById(Integer ID);
+     List<ReteteCuMedicamentele> findAll();
+     ReteteCuMedicamentele save(ReteteCuMedicamentele reteta);
+     ReteteCuMedicamentele delete(ReteteCuMedicamentele reteta);
+     ReteteCuMedicamentele update(ReteteCuMedicamentele reteta ,Integer IDRetetaToBeUpdated ,String numeMedicament , Integer retetaID);
+     ReteteCuMedicamentele findById(Integer ID);
 }

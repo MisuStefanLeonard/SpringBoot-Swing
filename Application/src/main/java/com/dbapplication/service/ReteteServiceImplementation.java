@@ -12,9 +12,15 @@ import com.dbapplication.repository.DoctoriRepository;
 import com.dbapplication.repository.PacientiRepository;
 import com.dbapplication.repository.ReteteCuMedicamenteleRepository;
 import com.dbapplication.repository.ReteteRepository;
+
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +37,26 @@ public class ReteteServiceImplementation implements ReteteService{
     private final DoctoriRepository doctoriRepository;
     private final PacientiRepository pacientiRepository;
     private final ReteteCuMedicamenteleRepository reteteCuMedicamenteleRepository;
+    private final String TableName = "retete";
 
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Autowired
     public ReteteServiceImplementation(ReteteRepository reteteRepository, DoctoriRepository doctoriRepository, PacientiRepository pacientiRepository, ReteteCuMedicamenteleRepository reteteCuMedicamenteleRepository) {
         this.reteteRepository = reteteRepository;
@@ -50,12 +75,16 @@ public class ReteteServiceImplementation implements ReteteService{
     @Override
     public Retete save(Retete retete) {
         reteteRepository.save(retete);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "INSERT",ts});
         return retete;
     }
 
     @Override
     public Retete delete(Retete retete) {
         reteteRepository.delete(retete);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "DELETE",ts});
         return retete;
     }
 
@@ -75,6 +104,8 @@ public class ReteteServiceImplementation implements ReteteService{
             newReteta.setTipReteta(retete.getTipReteta());
             reteteRepository.save(newReteta);
         }
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
         return toBeUpdatedReteta;
     }
 

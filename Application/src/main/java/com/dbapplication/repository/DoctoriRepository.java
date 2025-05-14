@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DoctoriRepository extends JpaRepository<Doctori, Integer>{ 
-    public List<Doctori> findBytipDoctor(TipDoctori tipDoctor);
+     List<Doctori> findBytipDoctor(TipDoctori tipDoctor);
 }

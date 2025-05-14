@@ -7,7 +7,14 @@ package com.dbapplication.service;
 import com.dbapplication.models.CabineteDoctori;
 import com.dbapplication.repository.CabineteDoctoriRepository;
 import com.dbapplication.repository.DoctoriRepository;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +28,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class CabineteDoctoriServiceImplementation implements CabineteDoctoriService{
     
     private final CabineteDoctoriRepository cabineteDoctoriRepository;
-
+    private final String TableName = "cabinete_doctori";
     @Autowired
     public CabineteDoctoriServiceImplementation(CabineteDoctoriRepository cabineteDoctoriRepository) {
         this.cabineteDoctoriRepository = cabineteDoctoriRepository;
         
+    }
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     @Override
@@ -36,12 +61,16 @@ public class CabineteDoctoriServiceImplementation implements CabineteDoctoriServ
     @Override
     public CabineteDoctori save(CabineteDoctori cabinetDoctori) {
        cabineteDoctoriRepository.save(cabinetDoctori);
+       String ts = LocalDateTime.now().toString();
+       CsvService.writeNext(new String[]{TableName , "INSERT",ts});
        return cabinetDoctori;
     }
 
     @Override
     public CabineteDoctori delete(CabineteDoctori cabinetDoctori) {
        cabineteDoctoriRepository.delete(cabinetDoctori);
+       String ts = LocalDateTime.now().toString();
+       CsvService.writeNext(new String[]{TableName , "DELETE",ts});
        return cabinetDoctori;
     }
     
@@ -56,7 +85,8 @@ public class CabineteDoctoriServiceImplementation implements CabineteDoctoriServ
                 cabinetToBeUpdated.setCabinetOras(cabinetDoctori.getCabinetOras());
                 cabinetToBeUpdated.setCabinetStrada(cabinetDoctori.getCabinetStrada());
                 cabinetToBeUpdated.setDoctori(cabinetDoctori.getDoctori());
-
+                String ts = LocalDateTime.now().toString();
+                CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
                 cabineteDoctoriRepository.save(cabinetToBeUpdated);
             }else{
                 throw new Error("CABINET NOT FOUND!");

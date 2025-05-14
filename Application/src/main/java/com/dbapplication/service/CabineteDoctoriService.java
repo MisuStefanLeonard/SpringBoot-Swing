@@ -12,10 +12,10 @@ import java.util.List;
  * @author misustefan
  */
 public interface CabineteDoctoriService {
-    public List<CabineteDoctori> findAll();
-    public CabineteDoctori save(CabineteDoctori cabinetDoctori);
-    public CabineteDoctori delete(CabineteDoctori cabinetDoctori);
-    public CabineteDoctori update(CabineteDoctori cabineteDoctori , Integer cabinetID);
-    public CabineteDoctori findById(Integer ID );
-    public CabineteDoctori findByPhoneNumber(String phoneNumber);
+     List<CabineteDoctori> findAll();
+     CabineteDoctori save(CabineteDoctori cabinetDoctori);
+     CabineteDoctori delete(CabineteDoctori cabinetDoctori);
+     CabineteDoctori update(CabineteDoctori cabineteDoctori , Integer cabinetID);
+     CabineteDoctori findById(Integer ID );
+     CabineteDoctori findByPhoneNumber(String phoneNumber);
 }

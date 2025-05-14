@@ -15,7 +15,7 @@ import org.springframework.data.repository.query.Param;
  * @author misustefan
  */
 public interface ReteteViewRepository extends JpaRepository<ReteteVIEW, String>{
-    public ReteteVIEW findBypacientCnp(String pacientCnp);
+     ReteteVIEW findBypacientCnp(String pacientCnp);
     @Query(value = "SELECT * FROM retete_view rv WHERE rv.pacient_cnp LIKE ?1%", nativeQuery = true)
-    public List<ReteteVIEW> currentPacients(String input);
+     List<ReteteVIEW> currentPacients(String input);
 }

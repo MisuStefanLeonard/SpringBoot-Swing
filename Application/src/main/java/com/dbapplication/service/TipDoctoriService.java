@@ -12,9 +12,9 @@ import java.util.List;
  * @author misustefan
  */
 public interface TipDoctoriService {
-    public List<TipDoctori> findAll();
-    public TipDoctori save(TipDoctori tipDoctor);
-    public TipDoctori delete(TipDoctori tipDoctor);
-    public TipDoctori update(TipDoctori tipDoctor , String oldName);
-    public TipDoctori findBynumeSpecializare(String numeSpecialiazare);
+     List<TipDoctori> findAll();
+     TipDoctori save(TipDoctori tipDoctor);
+     TipDoctori delete(TipDoctori tipDoctor);
+     TipDoctori update(TipDoctori tipDoctor , String oldName);
+     TipDoctori findBynumeSpecializare(String numeSpecialiazare);
 }

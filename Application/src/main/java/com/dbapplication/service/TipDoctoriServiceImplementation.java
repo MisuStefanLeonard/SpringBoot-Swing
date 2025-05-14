@@ -14,7 +14,13 @@ import com.dbapplication.repository.DoctoriRepository;
 import com.dbapplication.repository.ReteteCuMedicamenteleRepository;
 import com.dbapplication.repository.ReteteRepository;
 import com.dbapplication.repository.TipDoctoriRepository;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +38,25 @@ public class TipDoctoriServiceImplementation implements TipDoctoriService{
     private final ReteteRepository retetaRepository;
     private final CabineteDoctoriRepository cabineteRepository;
     private final ReteteCuMedicamenteleRepository reteteCuMedicamenteleRepository;
+    private final String TableName = "tip_doctori";
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Autowired
     public TipDoctoriServiceImplementation(TipDoctoriRepository tipDoctoriRepository, DoctoriRepository doctoriRepository, 
@@ -52,12 +77,16 @@ public class TipDoctoriServiceImplementation implements TipDoctoriService{
     @Override
     public TipDoctori save(TipDoctori tipDoctor) {
         tipDoctoriRepository.save(tipDoctor);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "INSERT",ts});
         return tipDoctor;
     }
 
     @Override
     public TipDoctori delete(TipDoctori tipDoctor) {
         tipDoctoriRepository.delete(tipDoctor);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "DELETE",ts});
         return tipDoctor;
     }
 
@@ -82,6 +111,8 @@ public class TipDoctoriServiceImplementation implements TipDoctoriService{
             updatedTipDoctor.setNumeSpecializare(tipDoctor.getNumeSpecializare());
             
             tipDoctoriRepository.save(updatedTipDoctor);
+            String ts = LocalDateTime.now().toString();
+            CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
         }
         return toBeUpdatedTipDoctor;
     }

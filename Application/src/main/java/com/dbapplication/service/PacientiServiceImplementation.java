@@ -12,8 +12,13 @@ import com.dbapplication.repository.PacientiRepository;
 import com.dbapplication.repository.ReteteCuMedicamenteleRepository;
 import com.dbapplication.repository.ReteteRepository;
 import com.dbapplication.repository.TestePacientiRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +39,7 @@ public class PacientiServiceImplementation implements PacientiService{
     private final TestePacientiRepository testePacientiRepository;
     private final ReteteCuMedicamenteleRepository reteteCuMedicamenteleRepository;
     private final EntityManager entityManagerPacienti;
+    private final String TableName = "pacienti";
     
     @Autowired
     public PacientiServiceImplementation(PacientiRepository pacientiRepository, ReteteRepository reteteRepo, TestePacientiRepository testePacientiRepository, ReteteCuMedicamenteleRepository reteteCuMedicamenteleRepository, EntityManager entityManagerPacienti) {
@@ -42,6 +48,24 @@ public class PacientiServiceImplementation implements PacientiService{
         this.testePacientiRepository = testePacientiRepository;
         this.reteteCuMedicamenteleRepository = reteteCuMedicamenteleRepository;
         this.entityManagerPacienti = entityManagerPacienti;
+    }
+
+    @PostConstruct
+    public void initCsv() {
+        try {
+            CsvService.init("audit.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PreDestroy
+    public void closeCsv() {
+        try {
+            CsvService.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     @Override
@@ -52,12 +76,16 @@ public class PacientiServiceImplementation implements PacientiService{
     @Override
     public Pacienti save(Pacienti pacienti) {
         pacientiRepository.save(pacienti);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "INSERT",ts});
         return pacienti;
     }
 
     @Override
      public Pacienti delete(Pacienti pacienti) {
         pacientiRepository.delete(pacienti);
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "DELETE",ts});
         return pacienti;
     }
 
@@ -122,8 +150,11 @@ public class PacientiServiceImplementation implements PacientiService{
             }
             reteteCuMedicamenteleRepository.saveAll(updatedReteteCuMedicamentele);
             testePacientiRepository.saveAll(testePacientiClone);
-                 
+
         }
+        String ts = LocalDateTime.now().toString();
+        CsvService.writeNext(new String[]{TableName , "UPDATE",ts});
+
         return oldPacient;
     }
 

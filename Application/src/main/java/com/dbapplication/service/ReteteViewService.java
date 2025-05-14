@@ -14,6 +14,6 @@ import java.util.List;
 public interface ReteteViewService {
     List<ReteteVIEW> findAll();
     ReteteVIEW findByPacientCnp(String pacientCnp);
-    public ReteteVIEW save(ReteteVIEW retetaView);
+     ReteteVIEW save(ReteteVIEW retetaView);
     List<ReteteVIEW> currentPacientsCNP(String input);
 }
